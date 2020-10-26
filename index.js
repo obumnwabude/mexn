@@ -6,7 +6,8 @@ const port = process.env.PORT || 3000;
 const v1 = require('./lib/v1/index');
 
 mongoose
-  .connect(process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/smp', {
+  .connect(process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/template', {
+    useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

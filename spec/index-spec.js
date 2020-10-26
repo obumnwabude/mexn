@@ -3,7 +3,7 @@ const request = require('supertest');
 let app;
 
 describe('Server', () => {
-  beforeEach((done) => {
+  beforeAll((done) => {
     mongoUnit.start().then((testMongoUrl) => {
       process.env.MONGODB_URL = testMongoUrl;
       process.env.PORT = 3002;
@@ -12,13 +12,21 @@ describe('Server', () => {
     });
   });
 
-  afterEach(() => mongoUnit.drop());
-
-  afterAll(() => app.close());
+  afterAll((done) => {
+    mongoUnit.drop();
+    app.close();
+    done();
+  });
 
   describe('is working properly', () => {
-    it('should return a status code of 200 on / (home route)', () => {
-      request(app).get('/').expect(200);
+    it('should return a status code of 200 on /api/v1/ (home route)', (done) => {
+      request(app)
+        .get('/api/v1')
+        .expect(200)
+        .end((error) => {
+          if (error) done.fail(error);
+          else done();
+        });
     });
   });
 });
