@@ -12,10 +12,14 @@ describe('Server', () => {
     });
   });
 
-  afterAll((done) => {
-    mongoUnit.drop();
-    app.close();
-    done();
+  afterAll(async (done) => {
+    try {
+      await mongoUnit.drop();
+      await app.close();
+      done();
+    } catch (error) {
+      done();
+    }
   });
 
   describe('is working properly', () => {
@@ -23,10 +27,8 @@ describe('Server', () => {
       request(app)
         .get('/api/v1')
         .expect(200)
-        .end((error) => {
-          if (error) done.fail(error);
-          else done();
-        });
+        .then(done)
+        .catch(done.fail);
     });
   });
 });
