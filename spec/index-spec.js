@@ -24,11 +24,7 @@ describe('Server', () => {
 
   describe('is working properly', () => {
     it('should return a status code of 200 on /api/v1/ (home route)', (done) => {
-      request(app)
-        .get('/api/v1')
-        .expect(200)
-        .then(done)
-        .catch(done.fail);
+      request(app).get('/api/v1').expect(200).then(done).catch(done.fail);
     });
   });
 });
